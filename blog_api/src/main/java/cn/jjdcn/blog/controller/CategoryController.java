@@ -3,11 +3,9 @@ package cn.jjdcn.blog.controller;
 import cn.jjdcn.blog.entity.Category;
 import cn.jjdcn.blog.service.CategoryService;
 import cn.jjdcn.blog.vo.Result;
-import io.swagger.annotations.Api;
-import org.springframework.lang.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,80 +13,105 @@ import java.util.Map;
 /**
  * (Category)表控制层
  *
- * @author makejava
- * @since 2019-12-05 01:09:42
+ * @author jjdcn
+ * @since 2019-12-08 02:37:37
  */
-@Api(value = "分类Controller")
 @RestController
 @RequestMapping("category")
 public class CategoryController {
-	/**
-	 * 服务对象
-	 */
-	@Resource
-	private CategoryService categoryService;
-
-	/**
+    /**
+     * 服务对象
+     */
+    @Autowired
+    private CategoryService categoryService;
+    
+    
+    /**
 	 * 通过主键查询单条数据
 	 *
 	 * @param id 主键
 	 * @return 单条数据
 	 */
 	@GetMapping("get/{id}")
-	public Result get(@PathVariable Integer id) {
-		Result result = Result.error();
+	public Result getById(@PathVariable Integer id) {
 		Category category = categoryService.queryById(id);
 		if (category != null) {
-			Map<String, Object> map = new HashMap<>();
-			map.put("item", category);
-			result = Result.ok().data(map);
+			Map<String,Category> map = new HashMap<>();
+			map.put("category", category);
+			return Result.ok().data(map);
+		}else {
+			return Result.error().message("没有数据");
 		}
-
-		return result;
 	}
 
+	/**
+	 * 获得所有数据
+	 *
+	 * @return
+	 */
 	@GetMapping("get")
 	public Result getAll() {
-		Result result = Result.error();
-		List<Category> categories = categoryService.queryAllByLimit(0, 10);
-		if (categories != null) {
-			Map<String, Object> map = new HashMap<>();
-			map.put("items", categories);
-			result = Result.ok().data(map);
-		}
 
-		return result;
+		List<Category> categorys = categoryService.queryAllByLimit(0, 100);
+		if (categorys != null && !categorys.isEmpty()) {
+			Map<String,List> map = new HashMap<>();
+			map.put("categorys",categorys);
+			return Result.ok().data(map);
+		} else {
+			return Result.error().message("没有数据");
+		}
 	}
 
+	/**
+	 * 添加一条数据
+	 *
+	 * @param category
+	 * @return
+	 */
 	@PostMapping("add")
-	public Result add(Category category) {
+	public Result add(@RequestBody Category category) {
 
-		Result result = Result.error();
-		if (categoryService.insert(category) != null) {
-			result = Result.ok().message("添加成功");
+		Category added = categoryService.insert(category);
+		if (added != null) {
+			Map<String,Category> map = new HashMap<>();
+			map.put("category",category);
+			return Result.ok().message("添加成功").data(map);
+		} else {
+			return Result.error().message("添加失败");
 		}
-
-		return result;
 	}
 
+	/**
+	 * 更新数据
+	 *
+	 * @param category
+	 * @return
+	 */
 	@PutMapping("update")
 	public Result update(@RequestBody Category category) {
-		Result result = Result.error();
-		if (categoryService.update(category) != null) {
-			result = Result.ok().message("修改成功");
+		Category updated = categoryService.update(category);
+		if (updated != null) {
+			Map<String,Category> map = new HashMap<>();
+			map.put("category",updated);
+			return Result.ok().message("更新成功").data(map);
+		} else {
+			return Result.error().message("更新失败");
 		}
-
-		return result;
 	}
 
+	/**
+	 * 根据id删除
+	 *
+	 * @param id
+	 * @return
+	 */
 	@DeleteMapping("delete/{id}")
 	public Result delete(@PathVariable Integer id) {
-		Result result = Result.error();
-		boolean delete = categoryService.deleteById(id);
-		if (delete) {
-			result = Result.ok().message("删除成功");
+		if (categoryService.deleteById(id)) {
+			return Result.ok().message("删除成功");
+		} else {
+			return Result.error().message("删除失败");
 		}
-
-		return result;
 	}
+
 }

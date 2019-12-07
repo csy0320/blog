@@ -69,7 +69,7 @@
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
         insert into blog.article(title, content, create_time, publish_time, user_id, page_view, category_id, tags)
-        values (#{title}, #{content}, #{createTime}, #{publishTime}, #{userId}, #{pageView}, #{categoryId}, #{tags})
+        values (#{title}, #{content}, now(), #{publishTime}, #{userId}, #{pageView}, #{categoryId}, #{tags})
     </insert>
 
     <!--通过主键修改数据-->
@@ -83,7 +83,7 @@
                 content = #{content},
             </if>
             <if test="createTime != null">
-                create_time = #{createTime},
+                create_time = now(),
             </if>
             <if test="publishTime != null">
                 publish_time = #{publishTime},
