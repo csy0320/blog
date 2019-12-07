@@ -12,6 +12,9 @@ import cn.jjdcn.blog.common.ResponseCode;
 import cn.jjdcn.blog.common.ResponseMessage;
 import lombok.Data;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * (一句话功能简述)
  * (功能详细描述，使用注意事项)
@@ -22,43 +25,42 @@ import lombok.Data;
  * @since [产品/模块版本]
  */
 @Data
-public class Result<T> {
+public class Result {
 
 	private Boolean success;
 	private Integer code;
 	private String message;
-	private T data;
+	private Map data;
 
-	private Result(Boolean success, Integer code, String message) {
+	private Result(Boolean success, Integer code, String message, Map<String, Object> data) {
 		this.success = success;
 		this.code = code;
 		this.message = message;
+		this.data = data;
 	}
 
-	public static Result ok() {
-		return new Result(true, ResponseCode.OK.getCode(), ResponseMessage.OK.getMessage());
+	public static Result ok(){
+
+		return new Result(true, ResponseCode.OK.getCode(), ResponseMessage.OK.getMessage(),new HashMap<>());
 	}
 
-	public static Result error() {
-		return new Result(false, ResponseCode.ERROR.getCode(), ResponseMessage.ERROR.getMessage());
+	public static Result error(){
+		return new Result(false, ResponseCode.ERROR.getCode(), ResponseMessage.ERROR.getMessage(),new HashMap<>());
 	}
 
-	public Result success(Boolean success) {
+	public Result success(Boolean success){
 		this.success = success;
 		return this;
 	}
-
-	public Result code(Integer code) {
+	public Result code(Integer code){
 		this.code = code;
 		return this;
 	}
-
-	public Result message(String message) {
+	public Result message(String message){
 		this.message = message;
 		return this;
 	}
-
-	public Result data(T data) {
+	public Result data(Map data){
 		this.data = data;
 		return this;
 	}
