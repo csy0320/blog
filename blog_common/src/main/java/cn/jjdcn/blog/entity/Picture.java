@@ -1,5 +1,7 @@
 package cn.jjdcn.blog.entity;
 
+import lombok.Data;
+
 import java.util.Date;
 import java.io.Serializable;
 
@@ -9,6 +11,7 @@ import java.io.Serializable;
  * @author makejava
  * @since 2019-12-05 01:09:43
  */
+@Data
 public class Picture implements Serializable {
     private static final long serialVersionUID = -67773438025705774L;
     /**

@@ -32,7 +32,7 @@ public class Result {
 	private String message;
 	private Map data;
 
-	private Result(Boolean success, Integer code, String message, Map<String, Object> data) {
+	private Result(Boolean success, Integer code, String message, Map data) {
 		this.success = success;
 		this.code = code;
 		this.message = message;

@@ -1,5 +1,7 @@
 package cn.jjdcn.blog.entity;
 
+import lombok.Data;
+
 import java.util.Date;
 import java.io.Serializable;
 
@@ -9,6 +11,7 @@ import java.io.Serializable;
  * @author makejava
  * @since 2019-12-05 01:09:43
  */
+@Data
 public class User implements Serializable {
     private static final long serialVersionUID = -64298878450163210L;
     /**
@@ -26,7 +29,7 @@ public class User implements Serializable {
     /**
     * 用户角色 0：admin,1:普通用户
     */
-    private Object role;
+    private Integer role;
     /**
     * 注册时间
     */
@@ -47,78 +50,5 @@ public class User implements Serializable {
     * 用户邮箱
     */
     private String email;
-
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Object getRole() {
-        return role;
-    }
-
-    public void setRole(Object role) {
-        this.role = role;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getLastLoginTime() {
-        return lastLoginTime;
-    }
-
-    public void setLastLoginTime(Date lastLoginTime) {
-        this.lastLoginTime = lastLoginTime;
-    }
-
-    public Object getStatus() {
-        return status;
-    }
-
-    public void setStatus(Object status) {
-        this.status = status;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
 }
